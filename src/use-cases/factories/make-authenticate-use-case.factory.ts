@@ -1,4 +1,4 @@
-import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
+import { PrismaUsersRepository } from '@/repositories/implementations/prisma/prisma-users.repository'
 import { AuthenticateUseCase } from '../authenticate.use-case'
 
 // factory pattern - make instances only!

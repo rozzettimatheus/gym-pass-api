@@ -1,12 +1,12 @@
+import { hash } from 'bcryptjs'
 import { expect, describe, it, beforeEach } from 'vitest'
 
-import { UsersRepository } from '@/repositories/users-repository'
-import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { IUsersRepository } from '@/repositories/protocols/users.repository'
+import { InMemoryUsersRepository } from '@/repositories/implementations/in-memory/in-memory-users.repository'
 import { AuthenticateUseCase } from '@/use-cases/authenticate.use-case'
-import { hash } from 'bcryptjs'
 import { InvalidCredentialsError } from './errors/invalid-credentials.error'
 
-let repository: UsersRepository
+let repository: IUsersRepository
 let sut: AuthenticateUseCase
 
 describe('Authenticate Use Case', () => {

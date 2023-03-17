@@ -1,8 +1,8 @@
 import type { User } from '@prisma/client'
 
-import { UseCase } from './use-case'
-import { UsersRepository } from '@/repositories/users-repository'
-import { ResourceNotFound } from './errors/resource-not-found'
+import { IUseCase } from './protocols/use-case'
+import { IUsersRepository } from '@/repositories/protocols/users.repository'
+import { ResourceNotFoundError } from './errors/resource-not-found'
 
 type GetUserProfileUseCaseRequest = {
   userId: string
@@ -14,9 +14,9 @@ type GetUserProfileUseCaseResponse = {
 
 export class GetUserProfileUseCase
   implements
-    UseCase<GetUserProfileUseCaseRequest, GetUserProfileUseCaseResponse>
+    IUseCase<GetUserProfileUseCaseRequest, GetUserProfileUseCaseResponse>
 {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private usersRepository: IUsersRepository) {}
 
   async run({
     userId,
@@ -24,7 +24,7 @@ export class GetUserProfileUseCase
     const user = await this.usersRepository.findById(userId)
 
     if (!user) {
-      throw new ResourceNotFound()
+      throw new ResourceNotFoundError()
     }
 
     return { user }

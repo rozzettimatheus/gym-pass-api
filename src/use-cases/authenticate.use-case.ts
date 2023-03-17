@@ -1,8 +1,8 @@
-import { UsersRepository } from '@/repositories/users-repository'
+import { IUsersRepository } from '@/repositories/protocols/users.repository'
 import type { User } from '@prisma/client'
 import { compare } from 'bcryptjs'
 import { InvalidCredentialsError } from './errors/invalid-credentials.error'
-import { UseCase } from './use-case'
+import { IUseCase } from './protocols/use-case'
 
 type AuthenticateUseCaseRequest = {
   email: string
@@ -14,9 +14,9 @@ type AuthenticateUseCaseResponse = {
 }
 
 export class AuthenticateUseCase
-  implements UseCase<AuthenticateUseCaseRequest, AuthenticateUseCaseResponse>
+  implements IUseCase<AuthenticateUseCaseRequest, AuthenticateUseCaseResponse>
 {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private usersRepository: IUsersRepository) {}
 
   async run({
     email,

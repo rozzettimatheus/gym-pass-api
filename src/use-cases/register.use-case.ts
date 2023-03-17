@@ -1,23 +1,24 @@
-import { UsersRepository } from '@/repositories/users-repository'
-import type { User } from '@prisma/client'
 import { hash } from 'bcryptjs'
-import { UserAlreadyExistsError } from './errors/user-already-exists.error'
-import { UseCase } from './use-case'
+import type { User } from '@prisma/client'
 
-interface RegisterUseCaseRequest {
+import { IUsersRepository } from '@/repositories/protocols/users.repository'
+import { IUseCase } from './protocols/use-case'
+import { UserAlreadyExistsError } from './errors/user-already-exists.error'
+
+type RegisterUseCaseRequest = {
   name: string
   email: string
   password: string
 }
 
-interface RegisterUseCaseResponse {
+type RegisterUseCaseResponse = {
   user: User
 }
 
 export class RegisterUseCase
-  implements UseCase<RegisterUseCaseRequest, RegisterUseCaseResponse>
+  implements IUseCase<RegisterUseCaseRequest, RegisterUseCaseResponse>
 {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private usersRepository: IUsersRepository) {}
 
   async run({
     email,

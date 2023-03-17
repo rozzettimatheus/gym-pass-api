@@ -1,11 +1,11 @@
 import { expect, describe, it, beforeEach } from 'vitest'
 
-import { UsersRepository } from '@/repositories/users-repository'
-import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { IUsersRepository } from '@/repositories/protocols/users.repository'
+import { InMemoryUsersRepository } from '@/repositories/implementations/in-memory/in-memory-users.repository'
 import { GetUserProfileUseCase } from './get-user-profile.use-case'
-import { ResourceNotFound } from './errors/resource-not-found'
+import { ResourceNotFoundError } from './errors/resource-not-found'
 
-let repository: UsersRepository
+let repository: IUsersRepository
 let sut: GetUserProfileUseCase
 
 describe('Get User Use Case', () => {
@@ -30,6 +30,6 @@ describe('Get User Use Case', () => {
   it('should not be able to get user profile with wrong id', async () => {
     await expect(() =>
       sut.run({ userId: 'non-existing-id' }),
-    ).rejects.toBeInstanceOf(ResourceNotFound)
+    ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 })
