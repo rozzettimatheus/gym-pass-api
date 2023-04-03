@@ -1,10 +1,15 @@
 import { CheckIn } from '@prisma/client'
 
-import { ICheckInsRepository } from '@/repositories/protocols/check-ins.repository'
 import { IUseCase } from './protocols/use-case'
+
+import { ICheckInsRepository } from '@/repositories/protocols/check-ins.repository'
 import { IGymsRepository } from '@/repositories/protocols/gyms.repository'
-import { ResourceNotFoundError } from './errors/resource-not-found'
+
 import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coordinates'
+
+import { ResourceNotFoundError } from './errors/resource-not-found'
+import { MaxDistanceReachedError } from './errors/max-distance-reached.error'
+import { MaxNumberOfCheckInsReachedError } from './errors/max-number-of-check-ins-reached.error'
 
 type CheckInUseCaseRequest = {
   userId: string
@@ -49,7 +54,7 @@ export class CheckInUseCase
     const MAX_DISTANCE_IN_KILOMETERS = 0.1
 
     if (distance > MAX_DISTANCE_IN_KILOMETERS) {
-      throw new Error()
+      throw new MaxDistanceReachedError()
     }
 
     const checkInOnSameDay = await this.checkInsRepository.findByUserIdOnDate(
@@ -58,7 +63,7 @@ export class CheckInUseCase
     )
 
     if (checkInOnSameDay) {
-      throw new Error()
+      throw new MaxNumberOfCheckInsReachedError()
     }
 
     const checkIn = await this.checkInsRepository.create({
