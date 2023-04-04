@@ -17,7 +17,7 @@ let sut: CheckInUseCase
 const BASE_LAT = -21.7828621
 const BASE_LON = -48.1855472
 
-describe('Authenticate Use Case', () => {
+describe('Check In Use Case', () => {
   beforeEach(async () => {
     checkInsRepository = new InMemoryCheckInsRepository()
     gymsRepository = new InMemoryGymsRepository()

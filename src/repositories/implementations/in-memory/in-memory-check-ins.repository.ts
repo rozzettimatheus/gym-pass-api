@@ -5,7 +5,13 @@ import { Prisma, CheckIn } from '@prisma/client'
 import { ICheckInsRepository } from '@/repositories/protocols/check-ins.repository'
 
 export class InMemoryCheckInsRepository implements ICheckInsRepository {
-  private checkIns: CheckIn[] = []
+  public checkIns: CheckIn[] = []
+
+  async findById(id: string): Promise<CheckIn | null> {
+    const checkIn = this.checkIns.find((checkIn) => checkIn.id === id)
+
+    return checkIn ?? null
+  }
 
   async create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn> {
     const checkIn = {
@@ -17,6 +23,16 @@ export class InMemoryCheckInsRepository implements ICheckInsRepository {
     }
 
     this.checkIns.push(checkIn)
+
+    return checkIn
+  }
+
+  async save(checkIn: CheckIn): Promise<CheckIn> {
+    const index = this.checkIns.findIndex((item) => item.id === checkIn.id)
+
+    if (index >= 0) {
+      this.checkIns[index] = checkIn
+    }
 
     return checkIn
   }
