@@ -5,12 +5,17 @@ import { InMemoryCheckInsRepository } from '@/repositories/implementations/in-me
 
 import { FetchUserCheckInsUseCase } from './fetch-user-check-ins-history.use-case'
 
+import { DayJSDateProvider } from '@/providers/date/implementations/day-js.provider'
+import { IDateProvider } from '@/providers/date/contracts/date.provider'
+
+let dateProvider: IDateProvider
 let checkInsRepository: ICheckInsRepository
 let sut: FetchUserCheckInsUseCase
 
 describe('Fetch User Check-ins History Use Case', () => {
   beforeEach(async () => {
-    checkInsRepository = new InMemoryCheckInsRepository()
+    dateProvider = new DayJSDateProvider()
+    checkInsRepository = new InMemoryCheckInsRepository(dateProvider)
     sut = new FetchUserCheckInsUseCase(checkInsRepository)
   })
 

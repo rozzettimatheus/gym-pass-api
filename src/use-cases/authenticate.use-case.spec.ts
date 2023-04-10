@@ -1,25 +1,27 @@
-import { hash } from 'bcryptjs'
 import { expect, describe, it, beforeEach } from 'vitest'
 
 import { IUsersRepository } from '@/repositories/protocols/users.repository'
 import { InMemoryUsersRepository } from '@/repositories/implementations/in-memory/in-memory-users.repository'
 import { AuthenticateUseCase } from '@/use-cases/authenticate.use-case'
 import { InvalidCredentialsError } from './errors/invalid-credentials.error'
+import { BCryptJSHashProvider } from '@/providers/hash/implementations/bcrypt.provider'
 
+let hashProvider: BCryptJSHashProvider
 let repository: IUsersRepository
 let sut: AuthenticateUseCase
 
 describe('Authenticate Use Case', () => {
   beforeEach(() => {
+    hashProvider = new BCryptJSHashProvider()
     repository = new InMemoryUsersRepository()
-    sut = new AuthenticateUseCase(repository)
+    sut = new AuthenticateUseCase(repository, hashProvider)
   })
 
   it('should be able authenticate', async () => {
     await repository.create({
       name: 'John Doe',
       email: 'john.doe@email.com',
-      password_hash: await hash('123456', 6),
+      password_hash: await hashProvider.hash('123456', 6),
     })
 
     const { user } = await sut.run({
@@ -43,7 +45,7 @@ describe('Authenticate Use Case', () => {
     await repository.create({
       name: 'John Doe',
       email: 'john.doe@email.com',
-      password_hash: await hash('123456', 6),
+      password_hash: await hashProvider.hash('123456', 6),
     })
 
     await expect(() =>

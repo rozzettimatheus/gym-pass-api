@@ -9,7 +9,10 @@ import { InMemoryGymsRepository } from '@/repositories/implementations/in-memory
 
 import { MaxNumberOfCheckInsReachedError } from './errors/max-number-of-check-ins-reached.error'
 import { MaxDistanceReachedError } from './errors/max-distance-reached.error'
+import { IDateProvider } from '@/providers/date/contracts/date.provider'
+import { DayJSDateProvider } from '@/providers/date/implementations/day-js.provider'
 
+let dateProvider: IDateProvider
 let checkInsRepository: ICheckInsRepository
 let gymsRepository: InMemoryGymsRepository
 let sut: CheckInUseCase
@@ -19,7 +22,8 @@ const BASE_LON = -48.1855472
 
 describe('Check In Use Case', () => {
   beforeEach(async () => {
-    checkInsRepository = new InMemoryCheckInsRepository()
+    dateProvider = new DayJSDateProvider()
+    checkInsRepository = new InMemoryCheckInsRepository(dateProvider)
     gymsRepository = new InMemoryGymsRepository()
     sut = new CheckInUseCase(checkInsRepository, gymsRepository)
 

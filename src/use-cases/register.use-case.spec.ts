@@ -1,18 +1,22 @@
 import { expect, describe, it, beforeEach } from 'vitest'
-import { compare } from 'bcryptjs'
 
 import { IUsersRepository } from '@/repositories/protocols/users.repository'
 import { InMemoryUsersRepository } from '@/repositories/implementations/in-memory/in-memory-users.repository'
 import { RegisterUseCase } from '@/use-cases/register.use-case'
+
+import { BCryptJSHashProvider } from '@/providers/hash/implementations/bcrypt.provider'
+
 import { UserAlreadyExistsError } from './errors/user-already-exists.error'
 
+let hashProvider: BCryptJSHashProvider
 let repository: IUsersRepository
 let sut: RegisterUseCase
 
 describe('Register Use Case', () => {
   beforeEach(() => {
+    hashProvider = new BCryptJSHashProvider()
     repository = new InMemoryUsersRepository()
-    sut = new RegisterUseCase(repository)
+    sut = new RegisterUseCase(repository, hashProvider)
   })
 
   it('should be able to register', async () => {
@@ -32,7 +36,7 @@ describe('Register Use Case', () => {
       password: '123456',
     })
 
-    const isPasswordCorrectlyHashed = await compare(
+    const isPasswordCorrectlyHashed = await hashProvider.compare(
       '123456',
       user.password_hash,
     )

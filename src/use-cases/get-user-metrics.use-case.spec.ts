@@ -5,12 +5,17 @@ import { InMemoryCheckInsRepository } from '@/repositories/implementations/in-me
 
 import { GetUserMetricsUseCase } from './get-user-metrics.use-case'
 
+import { IDateProvider } from '@/providers/date/contracts/date.provider'
+import { DayJSDateProvider } from '@/providers/date/implementations/day-js.provider'
+
+let dateProvider: IDateProvider
 let checkInsRepository: ICheckInsRepository
 let sut: GetUserMetricsUseCase
 
 describe('Get User Metrics Use Case', () => {
   beforeEach(async () => {
-    checkInsRepository = new InMemoryCheckInsRepository()
+    dateProvider = new DayJSDateProvider()
+    checkInsRepository = new InMemoryCheckInsRepository(dateProvider)
     sut = new GetUserMetricsUseCase(checkInsRepository)
   })
 
