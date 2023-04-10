@@ -1,24 +1,27 @@
-import { client } from '@/lib/prisma'
-import { ICheckInsRepository } from '@/repositories/protocols/check-ins.repository'
 import { CheckIn, Prisma } from '@prisma/client'
-import dayjs from 'dayjs'
+import { client } from '@/lib/prisma'
+
+import { ICheckInsRepository } from '@/repositories/protocols/check-ins.repository'
+import { IDateProvider } from '@/providers/date/contracts/date.provider'
 
 export class PrismaCheckInsRepository implements ICheckInsRepository {
+  constructor(private dateProvider: IDateProvider) {}
+
   async findById(id: string) {
     return await client.checkIn.findUnique({ where: { id } })
   }
 
   async findByUserIdOnDate(userId: string, date: Date) {
-    const startOfTheDay = dayjs(date).startOf('date')
-    const endOfTheDay = dayjs(date).endOf('date')
+    const startOfTheDay = this.dateProvider.getStartOfDay(date)
+    const endOfTheDay = this.dateProvider.getEndOfDay(date)
 
     return await client.checkIn.findFirst({
       where: {
         // range using gte / lte
         user_id: userId,
         created_at: {
-          gte: startOfTheDay.toDate(),
-          lte: endOfTheDay.toDate(),
+          gte: startOfTheDay,
+          lte: endOfTheDay,
         },
       },
     })

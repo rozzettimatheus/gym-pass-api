@@ -1,15 +1,16 @@
-import dayjs from 'dayjs'
 import { randomUUID } from 'node:crypto'
 import { Prisma, CheckIn } from '@prisma/client'
 
 import { ICheckInsRepository } from '@/repositories/protocols/check-ins.repository'
+import { IDateProvider } from '@/providers/date/contracts/date.provider'
 
 export class InMemoryCheckInsRepository implements ICheckInsRepository {
   public checkIns: CheckIn[] = []
 
+  constructor(private dateProvider: IDateProvider) {}
+
   async findById(id: string): Promise<CheckIn | null> {
     const checkIn = this.checkIns.find((checkIn) => checkIn.id === id)
-
     return checkIn ?? null
   }
 
@@ -18,7 +19,7 @@ export class InMemoryCheckInsRepository implements ICheckInsRepository {
       id: randomUUID(),
       user_id: data.user_id,
       gym_id: data.gym_id,
-      validated_at: data.validated_at ? new Date(data.validated_at) : null,
+      validated_at: this.dateProvider.parseDate(data.validated_at),
       created_at: new Date(),
     }
 
@@ -43,13 +44,13 @@ export class InMemoryCheckInsRepository implements ICheckInsRepository {
     userId: string,
     date: Date,
   ): Promise<CheckIn | null> {
-    const startOfTheDay = dayjs(date).startOf('date')
-    const endOfTheDay = dayjs(date).endOf('date')
+    const startOfTheDay = this.dateProvider.getStartOfDay(date)
+    const endOfTheDay = this.dateProvider.getEndOfDay(date)
 
     const checkInOnSameDate = this.checkIns.find((checkIn) => {
-      const checkInDate = dayjs(checkIn.created_at)
       const isOnSameDate =
-        checkInDate.isAfter(startOfTheDay) && checkInDate.isBefore(endOfTheDay)
+        this.dateProvider.isAfterDate(checkIn.created_at, startOfTheDay) &&
+        this.dateProvider.isBeforeDate(checkIn.created_at, endOfTheDay)
 
       return checkIn.user_id === userId && isOnSameDate
     })
