@@ -28,3 +28,12 @@
 - [x] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL
 - [x] Todas listas de dados precisam estar paginadas com 20 itens por página
 - [ ] O usuário deve ser identificado por um JWT
+
+# Banco separado para testes
+
+- [x] separados por suites de testes
+  - o banco nao pode afetar os outros testes E2E
+  - deve ser levado em conta as principais funcionalidades / teste pode ser demorado
+  - performance
+  - testes isolados (test environments - vitest)
+  - testes E2E rodam dentro do CI/CD (mais custoso - ultimo a ser executado)
