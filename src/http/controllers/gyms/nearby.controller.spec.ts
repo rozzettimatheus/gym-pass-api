@@ -14,11 +14,7 @@ describe('Nearby Gyms (e2e)', () => {
   })
 
   it('should be able to list nearby gyms', async () => {
-    const { token } = await createAndAuthenticateUser(app, {
-      email: 'john.doe@email.com',
-      name: 'John Doe',
-      password: '123456',
-    })
+    const { token } = await createAndAuthenticateUser(app, undefined, true)
 
     await Promise.all([
       request(app.server)

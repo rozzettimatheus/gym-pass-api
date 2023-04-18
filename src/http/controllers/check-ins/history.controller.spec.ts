@@ -15,15 +15,10 @@ describe('History Check-in (e2e)', () => {
   })
 
   it('should be able to list the check-ins history', async () => {
-    const { token } = await createAndAuthenticateUser(app, {
-      email: 'john.doe@email.com',
-      name: 'John Doe',
-      password: '123456',
-    })
+    const { token } = await createAndAuthenticateUser(app)
 
     const user = await client.user.findFirstOrThrow()
 
-    // insert directly into DB
     const { id: gymId } = await client.gym.create({
       data: {
         title: 'Javascript Gym',

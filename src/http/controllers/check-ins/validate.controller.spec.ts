@@ -15,11 +15,7 @@ describe('Validate Check-in (e2e)', () => {
   })
 
   it('should be able to validate a check-in', async () => {
-    const { token } = await createAndAuthenticateUser(app, {
-      email: 'john.doe@email.com',
-      name: 'John Doe',
-      password: '123456',
-    })
+    const { token } = await createAndAuthenticateUser(app, undefined, true)
 
     const user = await client.user.findFirstOrThrow()
 

@@ -15,11 +15,7 @@ describe('Create Check-in (e2e)', () => {
   })
 
   it('should be able to check in', async () => {
-    const { token } = await createAndAuthenticateUser(app, {
-      email: 'john.doe@email.com',
-      name: 'John Doe',
-      password: '123456',
-    })
+    const { token } = await createAndAuthenticateUser(app)
 
     // insert directly into DB
     const { id: gymId } = await client.gym.create({

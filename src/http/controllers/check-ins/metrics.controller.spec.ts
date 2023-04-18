@@ -15,11 +15,7 @@ describe('Check-in Metrics (e2e)', () => {
   })
 
   it('should be able to get the total count of check-ins', async () => {
-    const { token } = await createAndAuthenticateUser(app, {
-      email: 'john.doe@email.com',
-      name: 'John Doe',
-      password: '123456',
-    })
+    const { token } = await createAndAuthenticateUser(app)
 
     const user = await client.user.findFirstOrThrow()
 
