@@ -14,7 +14,7 @@ describe('History Check-in (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to list the check-ins history ', async () => {
+  it('should be able to list the check-ins history', async () => {
     const { token } = await createAndAuthenticateUser(app, {
       email: 'john.doe@email.com',
       name: 'John Doe',
