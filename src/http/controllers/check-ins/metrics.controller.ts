@@ -9,6 +9,6 @@ export async function metrics(request: FastifyRequest, reply: FastifyReply) {
   })
 
   return reply.status(200).send({
-    check_ins_count: checkInsCount,
+    checkInsCount,
   })
 }

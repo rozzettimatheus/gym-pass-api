@@ -36,12 +36,15 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     return reply.status(201).send({ checkIn })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: err.message })
     }
 
     if (err instanceof MaxDistanceReachedError) {
+      return reply.status(400).send({ message: err.message })
     }
 
     if (err instanceof MaxNumberOfCheckInsReachedError) {
+      return reply.status(400).send({ message: err.message })
     }
 
     throw err
