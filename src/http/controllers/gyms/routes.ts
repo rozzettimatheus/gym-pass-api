@@ -11,8 +11,8 @@ export async function gymsRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
 
   // secured routes
-  app.get('/gyms/search', search)
-  app.get('/gyms/nearby', nearby)
+  app.get('/search', search)
+  app.get('/nearby', nearby)
 
-  app.post('/gyms', { onRequest: [verifyUserRole('ADMIN')] }, create)
+  app.post('/', { onRequest: [verifyUserRole('ADMIN')] }, create)
 }

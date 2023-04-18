@@ -22,9 +22,9 @@ app.register(fastifyJwt, {
 })
 app.register(fastifyCookie)
 
-app.register(usersRoutes)
-app.register(gymsRoutes)
-app.register(checkInsRoutes)
+app.register(usersRoutes, { prefix: '/api' })
+app.register(gymsRoutes, { prefix: '/api/gyms' })
+app.register(checkInsRoutes, { prefix: '/api' })
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
