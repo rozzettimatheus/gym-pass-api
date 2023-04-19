@@ -25,7 +25,7 @@ export async function createAndAuthenticateUser(
   })
 
   const authResponse = await request(app.server)
-    .post('/sessions')
+    .post('/api/sessions')
     .send({
       email: user?.email ?? 'johndoe@example.com',
       password: user?.password ?? '123456',

@@ -18,7 +18,7 @@ describe('Nearby Gyms (e2e)', () => {
 
     await Promise.all([
       request(app.server)
-        .post('/gyms')
+        .post('/api/gyms')
         .set('Authorization', `Bearer ${token}`)
         .send({
           title: 'Near Gym',
@@ -28,7 +28,7 @@ describe('Nearby Gyms (e2e)', () => {
           description: null,
         }),
       request(app.server)
-        .post('/gyms')
+        .post('/api/gyms')
         .set('Authorization', `Bearer ${token}`)
         .send({
           title: 'Far away Gym',
@@ -40,7 +40,7 @@ describe('Nearby Gyms (e2e)', () => {
     ])
 
     const response = await request(app.server)
-      .get('/gyms/nearby')
+      .get('/api/gyms/nearby')
       .query({
         latitude: -21.7828621,
         longitude: -48.1855472,
