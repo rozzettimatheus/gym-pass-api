@@ -8,4 +8,4 @@ services:
     environment:
       - POSTGRES_USERNAME=docker
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_DATABASE=apicheckingym
+      - POSTGRES_DATABASE=apigympass
