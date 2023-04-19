@@ -19,7 +19,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@rocketseat/eslint-config": "1.2.0",
     "@types/bcryptjs": "2.4.2",
