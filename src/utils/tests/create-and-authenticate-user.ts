@@ -4,17 +4,15 @@ import { hash } from 'bcryptjs'
 
 import { client } from '@/lib/prisma'
 
-type CreateUserParams =
-  | {
-      email?: string
-      name?: string
-      password?: string
-    }
-  | undefined
+type CreateUserParams = {
+  email?: string
+  name?: string
+  password?: string
+}
 
 export async function createAndAuthenticateUser(
   app: FastifyInstance,
-  user?: CreateUserParams,
+  user?: CreateUserParams | undefined,
   isAdmin = false,
 ) {
   await client.user.create({
