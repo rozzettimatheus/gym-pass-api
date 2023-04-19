@@ -12,10 +12,10 @@ jobs:
         image: bitnami/postgresql
         ports:
           - 5432:5432
-        environment:
-          - POSTGRES_USERNAME=docker
-          - POSTGRES_PASSWORD=docker
-          - POSTGRES_DATABASE=apigympass
+        env:
+          POSTGRES_USERNAME: docker
+          POSTGRES_PASSWORD: docker
+          POSTGRES_DATABASE: apigympass
 
     steps:
       - uses: actions/checkout@v3 # download code

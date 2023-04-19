@@ -20,7 +20,7 @@ describe('Profile (e2e)', () => {
     })
 
     const profileResponse = await request(app.server)
-      .get('/me')
+      .get('/api/me')
       .set('Authorization', `Bearer ${token}`)
       .send()
 

@@ -18,7 +18,7 @@ describe('Search Gyms (e2e)', () => {
 
     await Promise.all([
       request(app.server)
-        .post('/gyms')
+        .post('/api/gyms')
         .set('Authorization', `Bearer ${token}`)
         .send({
           title: 'Javascript Gym',
@@ -28,7 +28,7 @@ describe('Search Gyms (e2e)', () => {
           longitude: -48.1855472,
         }),
       request(app.server)
-        .post('/gyms')
+        .post('/api/gyms')
         .set('Authorization', `Bearer ${token}`)
         .send({
           title: 'Typescript Gym',
@@ -40,7 +40,7 @@ describe('Search Gyms (e2e)', () => {
     ])
 
     const response = await request(app.server)
-      .get('/gyms/search')
+      .get('/api/gyms/search')
       .query({
         q: 'Javascript',
       })
